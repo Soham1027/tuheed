@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+  <meta charset="utf-8">
+  <title>{% block title %}
+    
+  {% endblock title %}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta content="Premium Multipurpose Admin &amp; Dashboard Template" name="description">
+  <meta content="Themesbrand" name="author">
+  <!-- App favicon -->
+  <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}">
+
+  <!-- Bootstrap Css -->
+  <link href="{% static 'css/bootstrap.min.css' %}" id="bootstrap-style" rel="stylesheet" type="text/css">
+  
+  <!-- Icons Css -->
+  <link href="{% static 'css/icons.min.css' %}" rel="stylesheet" type="text/css">
+
+  <!-- App Css-->
+  <link href="{% static 'css/app.min.css' %}" id="app-style" rel="stylesheet" type="text/css">
+</head>
+   <body class="" data-sidebar-size="lg">
+   
+    {% block content %}
+      
+    {% endblock content %}
+    </div>
+ </div>
+   
+   
+      <script src="{% static 'js/jquery.min.js' %}"></script>
+      <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+      <script src="{% static 'js/metisMenu.min.js' %}"></script>
+      <script src="{% static 'js/simplebar.min.js' %}"></script>
+      <script src="{% static 'js/waves.min.js' %}"></script>
+      <script src="{% static 'js/jquery.waypoints.min.js' %}"></script>
+      <script src="{% static 'js/jquery.counterup.min.js' %}"></script>
+      
+      <!-- apexcharts -->
+      <script src="{% static 'js/apexcharts.min.js' %}"></script>
+      
+      <script src="{% static 'js/dashboard.init.js' %}"></script>
+      
+      <!-- App js -->
+      <script src="{% static 'js/app.js' %}"></script>
+
+      <!-- <script src="{% static 'assets/plugins/datatables/datatables.min.js'%}"></script>
+      <script src="https://cdn.datatables.net/1.10.4/js/jquery.dataTables.min.js"></script>
+      <script type="text/javascript">
+      $(document).ready(function () {
+        $('#table_id').dataTable();
+    }); -->
+<!-- </script> -->
+
+   </body>
+   
+</html>
