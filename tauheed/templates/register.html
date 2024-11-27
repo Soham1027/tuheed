@@ -99,27 +99,31 @@
                         {% endif %}
                     </div>
 
-                    <!-- Password -->
-                    <div class="mb-6">
-                    
-                        <label for="password" class="form-label">Password</label>
-                        <input type="password" name="password" class="form-control" id="password" required>
-                        {% if form.password.errors %}
-                            <div class="invalid-feedback">
-                                {% for error in form.password.errors %}
-                                    <p>{{ error }}</p>
-                                {% endfor %}
-                            </div>
-                        {% endif %}
-                    </div>
+                <!-- Password -->
+                <div class="mb-6">
+                    <label for="password1" class="form-label">Password</label>
+                    <input type="password" name="password1" class="form-control" id="password1" required>
+                    {% if form.password1.errors %}
+                        <div class="invalid-feedback">
+                            {% for error in form.password1.errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
 
-                    <!-- Confirm Password -->
-                    <div class="mb-6">
-
-                        <label for="confirm_password" class="form-label">Confirm Password</label>
-                        <input type="password" name="confirm_password" class="form-control" id="confirm_password" required>
-                    </div>
-
+                <!-- Confirm Password -->
+                <div class="mb-6">
+                    <label for="password2" class="form-label">Confirm Password</label>
+                    <input type="password" name="password2" class="form-control" id="password2" required>
+                    {% if form.password2.errors %}
+                        <div class="invalid-feedback">
+                            {% for error in form.password2.errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
                     <!-- Parent Name -->
                     <div class="mb-6">
                     
@@ -143,9 +147,20 @@
 
                     <!-- School/College/Employment -->
                     <div class="mb-6">
-
                         <label for="school_college_or_employment" class="form-label">School/College/Employment</label>
-                        <input type="text" name="school_college_or_employment" class="form-control" id="school_college_or_employment"  required>
+                        <select name="school_college_or_employment" class="form-control" id="school_college_or_employment" required>
+                            <option value="" disabled {% if not form.school_college_or_employment.value %}selected{% endif %}>Select an option</option>
+                            <option value="SCHOOL" {% if form.school_college_or_employment.value == 'SCHOOL' %}selected{% endif %}>School</option>
+                            <option value="COLLEGE" {% if form.school_college_or_employment.value == 'COLLEGE' %}selected{% endif %}>College</option>
+                            <option value="EMPLOYMENT" {% if form.school_college_or_employment.value == 'EMPLOYMENT' %}selected{% endif %}>Employment</option>
+                        </select>
+                        {% if form.school_college_or_employment.errors %}
+                            <div class="invalid-feedback">
+                                {% for error in form.school_college_or_employment.errors %}
+                                    <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
                     </div>
 
                     <!-- Diversity -->

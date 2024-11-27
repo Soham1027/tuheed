@@ -2,25 +2,34 @@ import re
 from django import forms
 from .models import *
 from django.contrib.auth.hashers import make_password, check_password
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm,AuthenticationForm
 
 
-class UserDataRegisterForm(UserCreationForm):
+class UserRegistrationForm(UserCreationForm):
+    password1 = forms.CharField(widget=forms.PasswordInput(), label="Password")
+    password2 = forms.CharField(widget=forms.PasswordInput(), label="Confirm Password")
+    
     class Meta:
         model = UserData
         fields = [
-            'first_name', 'last_name', 'username', 'email', 'gender', 'date_of_birth', 
-            'parent_name', 'parent_phone_number', 'parent_surname', 'school_college_or_employment',
-            'diversity', 'photo_consent', 'term_and_condition_gdpr'
+            'first_name', 'last_name', 'username', 'email', 'gender', 'date_of_birth',
+            'parent_name', 'parent_surname', 'parent_phone_number', 'school_college_or_employment',
+            'diversity', 'photo_consent', 'term_and_condition_gdpr', 'password1', 'password2'
         ]
-        
-    # Additional validation for password confirmation can be handled by the UserCreationForm
-    confirm_password = forms.CharField(widget=forms.PasswordInput, label="Confirm Password")
+    
+    def clean(self):
+        cleaned_data = super().clean()
+        password1 = cleaned_data.get('password1')
+        password2 = cleaned_data.get('password2')
 
+        if password1 and password2 and password1 != password2:
+            self.add_error('password2', "Passwords do not match.")
+        
+        return cleaned_data
 # Login form
 class LoginForm(forms.Form):
-    username = forms.CharField(max_length=150)
-    password = forms.CharField(widget=forms.PasswordInput)
+    username = forms.CharField(max_length=150, label='Username')
+    password = forms.CharField(widget=forms.PasswordInput(), label='Password')
 
 class AddStaffForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput, label="Password")
