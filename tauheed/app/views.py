@@ -7,54 +7,41 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
 
 def register(request):
-    if request.method == "POST":
-        form = UserRegistrationForm(request.POST)
+    if request.method == 'POST':
+        form = UserDataRegisterForm(request.POST)
         if form.is_valid():
-            form.save()
-            messages.success(request, "Registration successful!")
-            return redirect('login')  # Redirect to the login page after successful registration
-        else:
-            messages.error(request, "There were errors in your form. Please check.")
+            user = form.save(commit=False)
+            user.set_password(form.cleaned_data['password'])  # Hash password
+            user.save()
+            messages.success(request, 'Your account has been created successfully!')
+            return redirect('login')  # Redirect to login page after registration
     else:
-        form = UserRegistrationForm()
-    
-    return render(request, "register.html", {"form": form})
+        form = UserDataRegisterForm()
+    return render(request, 'register.html', {'form': form})
 
-
-def login_view(request):
-    if request.method == "POST":
+# Login View
+def login_user(request):
+    if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
-            print(form.is_valid())
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
-            print(username)
-
-            # Try to find the user in the UserData model
-            try:
-                user = UserData.objects.get(username=username)  # Retrieve user by username
-            except UserData.DoesNotExist:
-                user = None
-
-            # Check if the user exists and if the password matches
-            print(user.password)
-            print(check_password(password, user.password))
-            if user and password==user.password:  # Password check
-            
-                if user:  # Check if the user is active
-                    login(request, user)  # Log in the user
-                    return redirect('dashboard')  # Redirect to the dashboard or home page
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
                 
-                else:
-                    messages.error(request, "Account is disabled.")
+                # Redirect based on user type (Admin, Staff, or User)
+                if user.is_superuser:  # Admin
+                    return redirect('dashboard')
+                elif user.join_type == '2':  # Staff
+                    return redirect('#')
+                elif user.join_type == '3':  # User
+                    return redirect('add_staff')
             else:
-                messages.error(request, "Invalid username or password.")
-
+                messages.error(request, 'Invalid username or password')
     else:
         form = LoginForm()
-
     return render(request, 'login.html', {'form': form})
-
 def logout_view(request):
     if "user_id" in request.session:
         del request.session["user_id"]
@@ -93,6 +80,13 @@ def dashboard(request):
     if request.method == "GET":
         return render(request, "dashboard.html")
     
+
+    
     else:
         print("wrong")
     return render (request, "login.html" )
+
+
+def dashboard2(request):
+    if request.method == "GET":
+        return render(request, "add_staff.html")
